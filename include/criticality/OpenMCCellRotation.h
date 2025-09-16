@@ -1,9 +1,10 @@
 #pragma once
 
 #include "OpenMCCellSearch.h"
+#include "MooseEnum.h"
 
 /**
- * Perform a criticality search based on a material total density
+ * Perform a criticality search based on a cell rotation
  */
 class OpenMCCellRotation : public OpenMCCellSearch
 {
@@ -25,7 +26,7 @@ protected:
 
   virtual std::string units() const override { return "[degrees]"; }
 
-  const char _rotation_axis_char;
+  const MooseEnum _rotation_axis_char;
 
-  std::vector<Real> _rotation_axis;
+  std::vector<Real> _rotation_axis = std::vector<Real>(3);
 };

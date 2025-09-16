@@ -19,23 +19,17 @@ OpenMCCellSearch::OpenMCCellSearch(const InputParameters & parameters)
 {
   for (auto cell_id : _cell_id_list )
   {
-    // get cell idx for the current cell_id
-    int idx = 0;
-    int cell_err = openmc_get_cell_index(cell_id, &idx)
+    // get cell_idx for the current cell_id
+    int cell_idx = 0;
+    int cell_err = openmc_get_cell_index(cell_id, &cell_idx);
     catchOpenMCError(cell_err, "get index for cell with ID " + std::to_string(cell_id));
-    // get the fill for this cell
-    int fill_type;
-    int32_t * materials = nullptr;
-    int n_materials = 0;
-    int fill_err = openmc_cell_get_fill(idx, &fill_type, &materials, &n_materials);
-    catchOpenMCError(fill_err, "get fill of cell " + printCell(cell_info));
-    if( fill_type == openmc::Fill:UNIVERSE)
-      _cell_index_list.push_back(idx) // add cell if it's in the cell_id_list and is filled with a universe
+    if( openmc::model::cells[cell_idx]->type_ == openmc::Fill::UNIVERSE)
+      _cell_index_list.push_back(cell_idx); // add cell if it's in the cell_id_list and is filled with a universe
     else {
-      mooseWarning("You have included " + std::tostring(cell_id) + " in the cell_id_list " +
-                   "however it is not filled with an openmc.Universe. You can only specify " +
-                   "rotations on cells filled with universes, therefore this cell will not" +
-                   "participate in the search.")
+      mooseWarning("You have included cell " + std::to_string(cell_id) + " in the cell_id_list " +
+                   "however it is not filled with an openmc.Universe. You can only specify rotations " +
+                   "on cells filled with universes, therefore this cell will not participate in " +
+                   "the search.");
     }
   }
 }
