@@ -140,3 +140,9 @@ getStatsOutputEnum()
 {
   return MooseEnum("mean std_dev rel_err", "mean");
 }
+
+MooseEnum
+getRotationAxisEnum()
+{
+  return MooseEnum("x y z");
+}
