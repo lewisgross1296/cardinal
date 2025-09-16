@@ -3,7 +3,7 @@
 #include "CriticalitySearchBase.h"
 
 /**
- * Perform a criticality search based on a material
+ * Perform a criticality search based on a cell transformation
  */
 class OpenMCCellSearch : public CriticalitySearchBase
 {
@@ -13,9 +13,9 @@ public:
   OpenMCCellSearch(const InputParameters & parameters);
 
 protected:
-  /// Material to be modified
-  const std::vector<int32_t &> _cell_id_list;
+  /// list of cell ids to be transformed
+  const std::vector<int32_t> _cell_id_list;
 
-  /// Material index corresponding to the ID
+  /// list of indices corresponding to the IDs of cells to be transformed
   std::vector<int32_t> _cell_index_list;
 };
